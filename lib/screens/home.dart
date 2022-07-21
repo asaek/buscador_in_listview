@@ -39,6 +39,29 @@ class _BusquedaListViewState extends State<BusquedaListView> {
     super.dispose();
   }
 
+  void filterSearchResults(String query) {
+    List<String> dummySearchList = [];
+    dummySearchList.addAll(duplicateItems);
+    if (query.isNotEmpty) {
+      List<String> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if (item.contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        items.clear();
+        items.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        items.clear();
+        items.addAll(duplicateItems);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +71,9 @@ class _BusquedaListViewState extends State<BusquedaListView> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
               controller: editingController,
               decoration: const InputDecoration(
                 labelText: "Search",
