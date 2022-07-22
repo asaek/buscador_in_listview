@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:search_listview/providers/providers.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -9,61 +11,65 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class BusquedaListView extends StatefulWidget {
-  const BusquedaListView({
-    Key? key,
-  }) : super(key: key);
+class BusquedaListView extends StatelessWidget {
+  // TextEditingController editingController = TextEditingController();
 
-  @override
-  State<BusquedaListView> createState() => _BusquedaListViewState();
-}
+  // final List<String> duplicateItems =
+  //     List<String>.generate(10000, (i) => "Item $i");
 
-class _BusquedaListViewState extends State<BusquedaListView> {
-  TextEditingController editingController = TextEditingController();
+  // List<String> items = [];
 
-  final List<String> duplicateItems =
-      List<String>.generate(10000, (i) => "Item $i");
+  // @override
+  // void initState() {
+  //   items.addAll(duplicateItems);
 
-  List<String> items = [];
+  //   super.initState();
+  // }
 
-  @override
-  void initState() {
-    items.addAll(duplicateItems);
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
-    super.initState();
-  }
+  // void filterSearchResults(String query) {
+  //   List<String> dummySearchList = [];
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  //   dummySearchList.addAll(duplicateItems);
 
-  void filterSearchResults(String query) {
-    List<String> dummySearchList = [];
-    dummySearchList.addAll(duplicateItems);
-    if (query.isNotEmpty) {
-      List<String> dummyListData = [];
-      dummySearchList.forEach((item) {
-        if (item.contains(query)) {
-          dummyListData.add(item);
-        }
-      });
-      setState(() {
-        items.clear();
-        items.addAll(dummyListData);
-      });
-      return;
-    } else {
-      setState(() {
-        items.clear();
-        items.addAll(duplicateItems);
-      });
-    }
-  }
+  //   if (query.isNotEmpty) {
+  //     List<String> dummyListData = [];
+
+  //     dummySearchList.forEach((item) {
+  //       if (item.contains(query)) {
+  //         dummyListData.add(item);
+  //       }
+  //     });
+
+  //     setState(() {
+  //       items.clear();
+  //       items.addAll(dummyListData);
+  //     });
+  //     return;
+  //   } else {
+  //     setState(() {
+  //       items.clear();
+  //       items.addAll(duplicateItems);
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final listaBusqueda =
+        Provider.of<BuscadorProvider>(context, listen: true).getListaBusqueda;
+    // final textoBuscado =
+    //     Provider.of<BuscadorProvider>(context, listen: false).getBusqueda;
+
+    // if (textoBuscado == '') {
+    //   Provider.of<BuscadorProvider>(context, listen: false)
+    //       .clearListaBusqueda();
+    // }
     return Column(
       children: [
         SafeArea(
@@ -72,9 +78,10 @@ class _BusquedaListViewState extends State<BusquedaListView> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                filterSearchResults(value);
+                Provider.of<BuscadorProvider>(context, listen: false)
+                    .setBusqueda = value;
               },
-              controller: editingController,
+              // controller: editingController,
               decoration: const InputDecoration(
                 labelText: "Search",
                 hintText: "Search",
@@ -90,14 +97,14 @@ class _BusquedaListViewState extends State<BusquedaListView> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: items.length,
+            itemCount: listaBusqueda.length,
             scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) => ListTile(
               title: Text(
-                items[index],
+                listaBusqueda[index],
               ),
             ),
           ),
