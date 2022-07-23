@@ -11,7 +11,6 @@ class BuscadorProvider with ChangeNotifier {
   String get getBusqueda => _busqueda;
   set setBusqueda(String value) {
     List<String> dummyListData = [];
-
     _busqueda = value;
 
     if (value == '') {
@@ -26,12 +25,7 @@ class BuscadorProvider with ChangeNotifier {
       _listaBusqueda.clear();
       _listaBusqueda.addAll(dummyListData);
     }
-
     notifyListeners();
-  }
-
-  void filtrarResultados({required String palabra}) {
-    List<String> dummyListData = [];
   }
 }
 
