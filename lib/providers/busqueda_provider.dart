@@ -2,21 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 class BuscadorProvider with ChangeNotifier {
   final List<String> _listaBusquedaOriginal =
-      List<String>.generate(11, (i) => "Item $i");
+      List<String>.generate(10000, (i) => "Item $i");
 
-  List<String> _listaBusqueda = List<String>.generate(11, (i) => "Item $i");
+  List<String> _listaBusqueda = List<String>.generate(10000, (i) => "Item $i");
   List<String> get getListaBusqueda => _listaBusqueda;
-  // set setListaBusqueda(List<String> value) {
-  //   _listaBusqueda.clear();
-  //   _listaBusqueda.addAll(value);
-  //   notifyListeners();
-  // }
-
-  // void clearListaBusqueda() {
-  //   _listaBusqueda.clear();
-  //   _listaBusqueda = _listaBusquedaOriginal;
-  //   notifyListeners();
-  // }
 
   String _busqueda = '';
   String get getBusqueda => _busqueda;
